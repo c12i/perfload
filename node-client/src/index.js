@@ -14,7 +14,24 @@ const io = require('socket.io-client')
 let socket = io('http://127.0.0.1:8181')
 
 socket.on('connect', () => {
-	console.log('I connected to the server')
+	// identify the connected machine uniquely
+	const networkInterfaces = os.networkInterfaces()
+	let macAddress
+	// loop through all network interfaces and find external one
+	for (let key in networkInterfaces) {
+		if (!networkInterfaces[key][0].internal) {
+			macAddress = !networkInterfaces[key][0].mac
+			break
+		}
+	}
+	// TODO: Client auth with single key value
+	socket.emit('client-auth', 'abcd1234')
+	// send performance data in 1s interval
+	let getPerformanceDataInterval = setInterval(async () => {
+		console.log('sending performance data...')
+		const data = await getPerformanceData()
+		socket.emit('performance-data', data)
+	}, 1000)
 })
 
 
@@ -90,5 +107,3 @@ function getCPULoad() {
 		}, 100)
 	})
 }
-
-getPerformanceData().then(console.log)
