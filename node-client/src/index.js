@@ -20,12 +20,16 @@ socket.on('connect', () => {
 	// loop through all network interfaces and find external one
 	for (let key in networkInterfaces) {
 		if (!networkInterfaces[key][0].internal) {
-			macAddress = !networkInterfaces[key][0].mac
+			macAddress = networkInterfaces[key][0].mac
 			break
 		}
 	}
 	// TODO: Client auth with single key value
 	socket.emit('client-auth', 'abcd1234')
+	getPerformanceData().then((data) => {
+		data['macAddress'] = macAddress
+		socket.emit('init-performance-data', data)
+	})
 	// send performance data in 1s interval
 	let getPerformanceDataInterval = setInterval(async () => {
 		console.log('sending performance data...')
