@@ -48,7 +48,7 @@ if (cluster.isMaster) {
 
 	io.on('connection', function (socket) {
 		socketMain(io, socket);
-		// console.log(`connected to worker: ${cluster.worker.id}`);
+		console.log(`connected to worker: ${cluster.worker.id}`);
 	});
 	// Listen to messages sent from the master. Ignore everything else.
 	process.on('message', function (message, connection) {
