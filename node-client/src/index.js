@@ -32,6 +32,9 @@ socket.on('connect', () => {
 		const data = await getPerformanceData()
 		socket.emit('performance-data', data)
 	}, 1000)
+	socket.on('disconnect', () => {
+		clearInterval(getPerformanceDataInterval)
+	})
 })
 
 
