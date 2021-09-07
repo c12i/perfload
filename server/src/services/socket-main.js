@@ -30,6 +30,6 @@ module.exports = function (io, socket) {
 	})
 
 	socket.on('performance-data', data => {
-		console.log(data)
+		console.log(JSON.stringify(data))
 	})
 }
