@@ -56,7 +56,7 @@ services:
       - redis
       - mongodb
     environment:
-      - MONGO_URL=http://host.docker.internal:28000/performance
+      - MONGO_URI=http://host.docker.internal:28000/performance
       - REDIS_HOST=host.docker.internal
       - REDIS_PORT=6969
     ports: 
