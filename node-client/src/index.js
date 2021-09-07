@@ -11,7 +11,9 @@
 
 const os = require("os")
 const io = require('socket.io-client')
-let socket = io('http://host.docker.internal:8181')
+
+const { SERVER_URL } = process.env
+let socket = io(SERVER_URL)
 
 socket.on('connect', () => {
 	// identify the connected machine uniquely

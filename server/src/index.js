@@ -7,7 +7,8 @@ const socketio = require('socket.io');
 const socketMain = require('./services/socket-main');
 // const expressMain = require('./services/express-main');
 
-const port = 8181;
+const { REDIS_HOST, REDIS_PORT } = process.env
+const PORT = 8181;
 const num_processes = require('os').cpus().length;
 const io_redis = require('socket.io-redis');
 const farmhash = require('farmhash');
@@ -39,15 +40,15 @@ if (cluster.isMaster) {
 		let worker = workers[worker_index(connection.remoteAddress, num_processes)];
 		worker.send('sticky-session:connection', connection);
 	})
-	server.listen(port);
-	console.log(`Master listening on port ${port}`);
+	server.listen(PORT);
+	console.log(`Master listening on port ${PORT}`);
 } else {
 	let app = express();
 	const server = app.listen(0, 'localhost');
 	console.log("Worker listening...");
 	const io = socketio(server);
 
-	io.adapter(io_redis({ host: 'host.docker.internal', port: 6969 }));
+	io.adapter(io_redis({ host: REDIS_HOST, port: REDIS_PORT }));
 
 	io.on('connection', function (socket) {
 		socketMain(io, socket);

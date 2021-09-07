@@ -25,6 +25,8 @@ services:
     container_name: node-client
     depends_on:
       - server
+    environment:
+      - SERVER_URL=http://host.docker.internal:8181
     restart: always
     volumes: 
       - /app/node_modules
@@ -37,6 +39,8 @@ services:
     container_name: react-client
     depends_on:
       - server
+    environment:
+      - REACT_APP_SERVER_URL=http://host.docker.internal:8181
     ports:
       - 3210:3210
     restart: always
@@ -51,6 +55,10 @@ services:
     depends_on: 
       - redis
       - mongodb
+    environment:
+      - MONGO_URL=http://host.docker.internal:28000/performance
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=6969
     ports: 
       - 8181:8181
     restart: always
