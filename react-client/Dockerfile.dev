@@ -1,0 +1,15 @@
+FROM node:alpine
+
+ENV APP_DIR /app
+
+WORKDIR $APP_DIR
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . $APP_DIR
+
+EXPOSE 3210
+
+CMD ["npm", "start"]

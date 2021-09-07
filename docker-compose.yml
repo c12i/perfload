@@ -1,8 +1,8 @@
 version: "3.6"
 
 networks:
-    perfload-network:
-        driver: bridge
+  perfload-network:
+    driver: bridge
 
 services:
     mongodb:
@@ -27,11 +27,28 @@ services:
       volumes: 
         - /app/node_modules
         - ./node-client:/app
+
+    react-client:
+      build:
+        context: ./react-client
+        dockerfile: Dockerfile.dev
+      container_name: react-client
+      depends_on:
+        - server
+      ports:
+        - 3210:3210
+      restart: always
+      volumes:
+        - /app/node_modules
+        - ./react-client:/app
     
     server:
       build: ./server
       command: npm run dev
       container_name: server
+      depends_on: 
+        - redis
+        - mongodb
       ports: 
         - 8181:8181
       restart: always
@@ -50,5 +67,5 @@ services:
         - redis-data:/data
 
 volumes:
-    mongo-data:
-    redis-data:
+  mongo-data:
+  redis-data:
