@@ -5,68 +5,68 @@ networks:
     driver: bridge
 
 services:
-    mongodb:
-      image : mongo:latest
-      container_name: mongodb
-      environment:
-        - PUID=1000
-        - PGID=1000
-      networks:
-        - perfload-network
-      ports:
-        - 28000:27017
-      restart: unless-stopped
-      volumes:
-        - mongo-data:/data/db
+  mongodb:
+    image : mongo:latest
+    container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - perfload-network
+    ports:
+      - 28000:27017
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
 
-    node-client:
-      build: ./node-client
-      command: npm run dev
-      container_name: node-client
-      depends_on:
-        - server
-      restart: always
-      volumes: 
-        - /app/node_modules
-        - ./node-client:/app
+  node-client:
+    build: ./node-client
+    command: npm run dev
+    container_name: node-client
+    depends_on:
+      - server
+    restart: always
+    volumes: 
+      - /app/node_modules
+      - ./node-client:/app
 
-    react-client:
-      build:
-        context: ./react-client-ts
-        dockerfile: Dockerfile.dev
-      container_name: react-client
-      depends_on:
-        - server
-      ports:
-        - 3210:3210
-      restart: always
-      volumes:
-        - /app/node_modules
-        - ./react-client-ts:/app
-    
-    server:
-      build: ./server
-      command: npm run dev
-      container_name: server
-      depends_on: 
-        - redis
-        - mongodb
-      ports: 
-        - 8181:8181
-      restart: always
-      volumes:
-        - /app/node_modules
-        - ./server:/app
+  react-client:
+    build:
+      context: ./react-client-ts
+      dockerfile: Dockerfile.dev
+    container_name: react-client
+    depends_on:
+      - server
+    ports:
+      - 3210:3210
+    restart: always
+    volumes:
+      - /app/node_modules
+      - ./react-client-ts:/app
+  
+  server:
+    build: ./server
+    command: npm run dev
+    container_name: server
+    depends_on: 
+      - redis
+      - mongodb
+    ports: 
+      - 8181:8181
+    restart: always
+    volumes:
+      - /app/node_modules
+      - ./server:/app
 
-    redis:
-      container_name: redis-server
-      image: redis:6.0.9-alpine
-      ports:
-        - 6969:6379
-      networks:
-        - perfload-network
-      volumes:
-        - redis-data:/data
+  redis:
+    container_name: redis-server
+    image: redis:6.0.9-alpine
+    ports:
+      - 6969:6379
+    networks:
+      - perfload-network
+    volumes:
+      - redis-data:/data
 
 volumes:
   mongo-data:
