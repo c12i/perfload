@@ -7,11 +7,12 @@ const socketio = require('socket.io');
 const socketMain = require('./services/socket-main');
 // const expressMain = require('./services/express-main');
 
-const { REDIS_HOST, REDIS_PORT } = process.env
-const PORT = 8181;
 const num_processes = require('os').cpus().length;
 const io_redis = require('socket.io-redis');
 const farmhash = require('farmhash');
+
+const { REDIS_HOST, REDIS_PORT } = process.env
+const PORT = 8181;
 
 if (cluster.isMaster) {
 	// This stores our workers. We need to keep them to be able to reference
