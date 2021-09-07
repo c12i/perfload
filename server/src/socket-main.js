@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://host.docker.internal:27017/performance', { useNewUrlParser: true })
+const checkAndInsertData = require('./services/checkAndInsertData')
 
 let macAddress
+mongoose.connect('mongodb://host.docker.internal:27017/performance', { useNewUrlParser: true })
 
 module.exports = function (io, socket) {
 	console.log('Socket connected', socket.id)
@@ -19,9 +20,10 @@ module.exports = function (io, socket) {
 		}
 	})
 
-	socket.on('init-performance-data', (data) => {
+	socket.on('init-performance-data', async (data) => {
 		macAddress = data.macAddress
-		// check and add in mongo if !exists
+		// check and insert performance-data in mongo if !exists
+		await checkAndInsertData(data)
 	})
 
 	socket.on('performance-data', data => {
