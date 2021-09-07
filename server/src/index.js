@@ -3,8 +3,8 @@ const express = require('express');
 const cluster = require('cluster');
 const net = require('net');
 const socketio = require('socket.io');
-const socketMain = require('./socket-main');
-// const expressMain = require('./express-main');
+const socketMain = require('./services/socket-main');
+// const expressMain = require('./services/express-main');
 
 const port = 8181;
 const num_processes = require('os').cpus().length;

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const checkAndInsertData = require('./services/checkAndInsertData')
+const checkAndInsertData = require('./check-and-insert-data')
 
 let macAddress
 mongoose.connect('mongodb://host.docker.internal:27017/performance', { useNewUrlParser: true })
