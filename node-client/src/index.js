@@ -11,9 +11,10 @@
 
 const os = require("os")
 const io = require('socket.io-client')
+require('dotenv').config()
 
 const { SERVER_URL } = process.env
-let socket = io(SERVER_URL || 'http://localhost:8181')
+let socket = io(SERVER_URL)
 
 socket.on('connect', () => {
 	// identify the connected machine uniquely

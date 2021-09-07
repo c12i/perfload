@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const checkAndInsertData = require('./check-and-insert-data')
+require('dotenv').config()
 
 const { MONGO_URI = 'mongodb://localhost:27017/performance' } = process.env
 
