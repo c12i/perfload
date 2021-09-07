@@ -11,6 +11,8 @@ services:
       environment:
         - PUID=1000
         - PGID=1000
+      networks:
+        - perfload-network
       ports:
         - 28000:27017
       restart: unless-stopped

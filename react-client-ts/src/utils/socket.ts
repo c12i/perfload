@@ -1,3 +1,5 @@
-const todo = () => {}
+import { io } from 'socket.io-client'
 
-export {todo}
+let socket = io('http://localhost:8181')
+
+export default socket
