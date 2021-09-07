@@ -40,14 +40,14 @@ services:
         - ./server:/app
 
     redis:
-        container_name: redis-server
-        image: redis:6.0.9-alpine
-        ports:
-            - '6969:6379'
-        networks:
-            - perfload-network
-        volumes:
-            - redis-data:/data
+      container_name: redis-server
+      image: redis:6.0.9-alpine
+      ports:
+        - 6969:6379
+      networks:
+        - perfload-network
+      volumes:
+        - redis-data:/data
 
 volumes:
     mongo-data:
