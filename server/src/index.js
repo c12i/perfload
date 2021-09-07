@@ -1,11 +1,10 @@
 //See https://github.com/elad/node-cluster-socket.io
 const cluster = require('cluster');
-const express = require('express');
+const http = require('http');
 const net = require('net');
 const socketio = require('socket.io');
 
 const socketMain = require('./services/socket-main');
-// const expressMain = require('./services/express-main');
 
 const num_processes = require('os').cpus().length;
 const io_redis = require('socket.io-redis');
@@ -44,10 +43,12 @@ if (cluster.isMaster) {
 	server.listen(PORT);
 	console.log(`Master listening on port ${PORT}`);
 } else {
-	let app = express();
+	const app = http.createServer();
 	const server = app.listen(0, 'localhost');
 	console.log("Worker listening...");
-	const io = socketio(server);
+	const io = socketio(server, {
+		cors: { origin: '*' }
+	});
 
 	io.adapter(io_redis({ host: REDIS_HOST, port: REDIS_PORT }));
 

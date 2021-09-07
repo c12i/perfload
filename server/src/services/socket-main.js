@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const checkAndInsertData = require('./check-and-insert-data')
 
+const { MONGO_URI = 'mongodb://localhost:27017/performance' } = process.env
+
 let macAddress
-mongoose.connect('mongodb://host.docker.internal:27017/performance', { useNewUrlParser: true })
+mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 
 module.exports = function (io, socket) {
 	console.log('Socket connected', socket.id)
