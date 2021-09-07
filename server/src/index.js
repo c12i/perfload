@@ -44,7 +44,7 @@ if (cluster.isMaster) {
 	const server = app.listen(0, 'localhost');
 	console.log("Worker listening...");    
 	const io = socketio(server);
-	io.adapter(io_redis({ host: 'localhost', port: 6379 }));
+	io.adapter(io_redis({ host: 'host.docker.internal', port: 6969 }));
 
 	io.on('connection', function (socket) {
 		socketMain(io, socket);
