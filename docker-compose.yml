@@ -30,7 +30,7 @@ services:
 
     react-client:
       build:
-        context: ./react-client
+        context: ./react-client-ts
         dockerfile: Dockerfile.dev
       container_name: react-client
       depends_on:
@@ -40,7 +40,7 @@ services:
       restart: always
       volumes:
         - /app/node_modules
-        - ./react-client:/app
+        - ./react-client-ts:/app
     
     server:
       build: ./server
