@@ -10,6 +10,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 module.exports = function (io, socket) {
 	console.log('Socket connected', socket.id)
 
+	// TODO: secure client-auth key in env vars
 	socket.on('client-auth', (key) => {
 		if (key === 'abcd1234') {
 			// valid node client joins
@@ -17,6 +18,7 @@ module.exports = function (io, socket) {
 		} else if (key === '1234abcd') {
 			// valid ui client
 			socket.join('ui')
+			console.log('A react app joined the room...')
 		} else {
 			// invalid client
 			socket.disconnect(true)
@@ -31,5 +33,6 @@ module.exports = function (io, socket) {
 
 	socket.on('performance-data', data => {
 		console.log(JSON.stringify(data))
+		io.in('ui').emit('data', data)
 	})
 }
