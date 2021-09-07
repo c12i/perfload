@@ -9,13 +9,13 @@ services:
       image : mongo:latest
       container_name: mongodb
       environment:
-      - PUID=1000
-      - PGID=1000
+        - PUID=1000
+        - PGID=1000
       ports:
-      - 28000:27017
+        - 28000:27017
       restart: unless-stopped
       volumes:
-      - mongo-data:/data/db
+        - mongo-data:/data/db
 
     node-client:
       build: ./node-client
