@@ -37,6 +37,7 @@ socket.on('connect', () => {
 	let getPerformanceDataInterval = setInterval(async () => {
 		console.log('sending performance data...')
 		const data = await getPerformanceData()
+		data['macAddress'] = macAddress
 		socket.emit('performance-data', data)
 	}, 1000)
 	socket.on('disconnect', () => {
