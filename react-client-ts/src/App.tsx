@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 
 import SystemInfoCard from './components/SystemInfoCard'
-import socket from './utils/socket'
+import useSocket from './hooks/useSocket'
 
 const App = () => {
+  const socket = useSocket()
   const [performanceData, setPerformanceData] = useState(null)
   useEffect(() => {
     socket.on('data', (data) => {
