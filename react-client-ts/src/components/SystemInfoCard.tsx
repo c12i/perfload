@@ -1,4 +1,4 @@
-import { Badge, Card, Descriptions, Tag } from 'antd'
+import { Badge, Card, Descriptions, Progress, Tag } from 'antd'
 import dayjs from 'dayjs'
 import Duration from 'dayjs/plugin/duration'
 import RelativeTime from 'dayjs/plugin/relativeTime'
@@ -21,9 +21,22 @@ const Widget: React.FC<Props> = ({ data }) => {
                     <Gauge percent={data?.cpuLoad} />
                     <SystemDescriptions data={data} />
                 </Card.Grid>
-                <Card.Grid hoverable={false} style={{width: '55%'}}>
-                    <h3>Memory Usage</h3>
+                <Card.Grid hoverable={false} style={{ width: '55%' }}>
+                    <h3>Memory Statistics</h3>
                     <Bar data={data} />
+                </Card.Grid>
+                <Card.Grid
+                    hoverable={false}
+                    style={{
+                        display: 'grid',
+                        padding: 35,
+                        height: '100%',
+                        placeItems: 'center',
+                        width: '55%',
+                    }}
+                >
+                    <h3>Memory Usage</h3>
+                    <Progress type="circle" percent={75} />
                 </Card.Grid>
             </Card>
         </Badge.Ribbon>
