@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Machine = require('../models/Machine')
 const checkAndInsertData = require('./check-and-insert-data')
 require('dotenv').config()
 
@@ -19,6 +20,14 @@ module.exports = function (io, socket) {
 			// valid ui client
 			socket.join('ui')
 			console.log('A react app joined the room...')
+			Machine.find({}, (err, documents) => {
+				if (err) console.error(err)
+				for (let machine of documents) {
+					// on initial fetch from db, set all machines as offline
+					machine.isOnline = false
+					io.in('ui').emit('data', machine)
+				}
+			})
 		} else {
 			// invalid client
 			socket.disconnect(true)
@@ -34,5 +43,16 @@ module.exports = function (io, socket) {
 	socket.on('performance-data', data => {
 		console.log(JSON.stringify(data))
 		io.in('ui').emit('data', data)
+	})
+
+	socket.on('disconnect', async () => {
+		Machine.findById({macAddress}, (err, documents) => {
+			if (err) console.error(err)
+			if (!!documents.length) {
+				const [machine] = documents
+				machine.isActive = false
+				io.in('ui').emit('data', machine)
+			}
+		})
 	})
 }
