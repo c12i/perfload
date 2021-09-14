@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import Duration from 'dayjs/plugin/duration'
 import RelativeTime from 'dayjs/plugin/relativeTime'
 import Gauge from './CustomGauge'
+import Bar from './CustomBarGraph'
 
 dayjs.extend(Duration)
 dayjs.extend(RelativeTime)
@@ -15,10 +16,14 @@ const Widget: React.FC<Props> = ({ data }) => {
     return (
         <Badge.Ribbon text={`${data?.osType} Machine`}>
             <Card style={{ width: 900 }}>
-                <Card.Grid hoverable={false} style={{ width: '50%' }}>
+                <Card.Grid hoverable={false} style={{ width: '45%' }}>
                     <h3>CPU Load</h3>
                     <Gauge percent={data?.cpuLoad} />
                     <SystemDescriptions data={data} />
+                </Card.Grid>
+                <Card.Grid hoverable={false} style={{width: '55%'}}>
+                    <h3>Memory Usage</h3>
+                    <Bar data={data} />
                 </Card.Grid>
             </Card>
         </Badge.Ribbon>
