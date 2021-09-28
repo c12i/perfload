@@ -12,7 +12,10 @@ const App = () => {
             currentState[data.macAddress] = data
             setPerformanceData(currentState)
         })
-    }, [])
+        return () => {
+            socket.disconnect()
+        }
+    }, [performanceData, socket])
     console.log(performanceData)
     return (
         <div
